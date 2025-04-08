@@ -1,0 +1,52 @@
+<div class="container mx-auto px-4 py-8 bg-gradient-to-r from-blue-50 to-indigo-100 min-h-screen">
+  <div class="flex justify-between items-center mb-10 p-6 bg-white rounded-lg shadow-md">
+    <h1 class="text-3xl font-bold text-indigo-700 tracking-wide">Your Tasks</h1>
+    <div class="flex space-x-4">
+      <button routerLink="/tasks/new" 
+        class="bg-indigo-600 text-white px-10 py-2 rounded-full hover:bg-indigo-700 transform hover:scale-105 transition duration-200 shadow-md flex items-center">
+        <span class="mr-2">+</span> Add Task
+      </button>
+      <button (click)="logout()" 
+        class="bg-indigo-600 text-white px-10 py-2 rounded-full hover:bg-indigo-700 transform hover:scale-105 transition duration-200 shadow-md flex items-center">
+        <span class="mr-2"></span>Logout
+      </button>
+    </div>
+  </div>
+
+  <div class="mb-4 flex justify-center">
+    <select [(ngModel)]="selectedStatus" (change)="filterTasks()"
+      class="mt-2 block max-w-md p-6 text-base border-gray-300 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150 hover:bg-gray-50">
+      <option value="all">All Tasks</option>
+      <option value="TO_DO">To Do</option>
+      <option value="IN_PROGRESS">In Progress</option>
+      <option value="DONE">Done</option>
+    </select>
+  </div>
+
+  <div class="grid gap-4 p-6">
+    <div *ngFor="let task of filteredTasks" 
+      class="bg-gray-200 p-6 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition duration-300">
+      <div class="flex justify-between items-start">
+        <div>
+          <h3 class="text-xl font-semibold text-gray-800 truncate">{{ task.title }}</h3>
+          <p class="text-gray-600 mt-2 line-clamp-2">{{ task.description }}</p>
+        </div>
+        <div class="flex space-x-2 items-center">
+          <select [ngModel]="task.status" (ngModelChange)="onStatusChange(task, $event)"
+            class="text-sm border-gray-300 rounded-md bg-white p-1 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <option value="TO_DO">To Do</option>
+            <option value="IN_PROGRESS">In Progress</option>
+            <option value="DONE">Done</option>
+          </select>
+          <button (click)="deleteTask(task.id!)" 
+            class="text-red-600 hover:text-red-800 transform hover:scale-110 transition duration-150">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
